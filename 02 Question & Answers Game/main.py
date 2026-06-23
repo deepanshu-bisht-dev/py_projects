@@ -37,4 +37,4 @@ try:
         i += 1
 
 except:
-    print("Enter a valid option")
+    print("Please enter a valid option")
