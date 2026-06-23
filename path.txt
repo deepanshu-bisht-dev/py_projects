@@ -1,0 +1,1 @@
+cd /c/Users/deepa/OneDrive/Documents/python_projects/py_projects
