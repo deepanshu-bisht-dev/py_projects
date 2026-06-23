@@ -1,3 +1,4 @@
+# First u must install PyPDF2 by coommanding the terminal as pip install PyPDF2
 from PyPDF2 import PdfWriter
 
 merger = PdfWriter()
