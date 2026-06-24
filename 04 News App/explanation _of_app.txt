@@ -1,0 +1,105 @@
+============================================================
+ EXPLANATION: World News Fetcher (Python + NewsAPI)
+============================================================
+
+WHAT THIS PROGRAM DOES
+------------------------
+This script asks the user for a topic, then uses the NewsAPI
+(newsapi.org) to fetch the latest news articles on that topic
+from around the world, and prints them out in the terminal.
+
+------------------------------------------------------------
+LINE-BY-LINE / SECTION-WISE BREAKDOWN
+------------------------------------------------------------
+
+1) import requests
+   - "requests" is a popular Python library used to send HTTP
+     requests (GET, POST, etc.) to web servers/APIs.
+   - Here it's used to call the NewsAPI endpoint over the internet.
+
+2) query = input("What type of news are you interested in today?")
+   - Takes input from the user (e.g. "cricket", "AI", "elections").
+   - This value will be used as the search keyword for the API.
+
+3) api = "461326a755104abe9d6a831b68366f08"
+   - This is your NewsAPI key, which authenticates your requests.
+   - IMPORTANT: Don't hardcode API keys directly in your code,
+     especially if you plan to push this to GitHub. Anyone who
+     sees your code can use your key and exhaust your quota.
+   - Better practice: store it in an environment variable or a
+     separate config/.env file that is excluded via .gitignore.
+   - Since this key was shared in our chat, consider regenerating
+     a fresh key from your NewsAPI dashboard to be safe.
+
+4) url = f"https://newsapi.org/v2/everything?q={query}&from=2026-05-24&sortBy=publishedAt&apiKey={api}"
+   - This builds the actual API request URL using an f-string.
+   - Breaking down the endpoint: /v2/everything
+     -> NewsAPI's endpoint for searching ALL articles (not just
+        top headlines) across many sources worldwide.
+   - Query parameters used:
+       q          -> the search keyword (from user input)
+       from       -> only return articles published on/after this
+                     date (currently hardcoded to 2026-05-24)
+       sortBy     -> orders results ("publishedAt" = newest first)
+       apiKey     -> your authentication key
+   - Note: "from" being hardcoded means after some time, you'll
+     always be searching from that fixed date. You could make
+     this dynamic using Python's datetime module if you want
+     "always last 7 days" type behavior.
+
+5) print(url)
+   - Just a debug line to see the exact URL being called.
+   - Useful while testing, can be removed/commented out later.
+
+6) r = requests.get(url)
+   - Sends an HTTP GET request to the NewsAPI server using the
+     URL built above, and stores the server's response in "r".
+
+7) data = r.json()
+   - Converts the raw JSON response (text) from the API into a
+     Python dictionary, so we can easily access its fields.
+   - NewsAPI's response structure looks roughly like:
+       {
+         "status": "ok",
+         "totalResults": 123,
+         "articles": [ {...}, {...}, ... ]
+       }
+
+8) articles = data["articles"]
+   - Extracts just the list of article objects from the response.
+   - Each article is itself a dictionary with keys like "title",
+     "author", "url", "publishedAt", "description", etc.
+
+9) for index, article in enumerate(articles):
+   - Loops through every article in the list.
+   - enumerate() also gives us a running index (0, 1, 2, ...)
+     alongside each article, which we use for numbering output.
+
+10) print(index+1, article["title"], article["author"],
+         article["url"], article["publishedAt"])
+   - Prints article number (starting from 1 instead of 0),
+     its title, author, link (url), and published date/time.
+
+11) print("\n*****...*****\n")
+   - Prints a visual separator line between each article so the
+     output is easier to read in the terminal.
+
+------------------------------------------------------------
+POSSIBLE IMPROVEMENTS (for future versions)
+------------------------------------------------------------
+- Move the API key to an environment variable (os.environ) or a
+  .env file using python-dotenv, instead of hardcoding it.
+- Add error handling: check r.status_code or data["status"]
+  before assuming "articles" exists (API can return errors like
+  invalid key, rate limit exceeded, bad request, etc.)
+- Make the "from" date dynamic (e.g. last 7 days from today)
+  using datetime.date.today() and datetime.timedelta.
+- Handle cases where "author" is None (NewsAPI often returns
+  null authors) so the print statement doesn't look messy.
+- Limit number of articles shown (e.g. only top 10) using
+  articles[:10] instead of looping through all of them.
+
+
+============================================================
+End of explanation
+============================================================
