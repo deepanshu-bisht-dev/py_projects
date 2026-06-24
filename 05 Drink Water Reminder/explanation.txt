@@ -1,0 +1,105 @@
+DRINK WATER REMINDER
+====================
+
+A simple desktop notification app built in Python that reminds you to
+drink water at regular intervals.
+
+OVERVIEW
+--------
+This script runs silently in the background and sends a native desktop
+notification at a fixed time interval, nudging you to take a water
+break. It's a lightweight example of using Python for everyday
+productivity/health automation.
+
+HOW IT WORKS
+------------
+The program uses an infinite loop (while True) combined with the
+time.sleep() function to repeat an action - sending a notification -
+at a fixed interval, indefinitely, until the program is manually
+stopped.
+
+    import time
+    from plyer import notification
+
+    while True:
+        notification.notify(
+            title="Please drink some water",
+            message="Water is very essential for your health."
+        )
+        time.sleep(60 * 60)  # waits for 1 hour before repeating
+
+STEP-BY-STEP BREAKDOWN
+-----------------------
+1. import time
+   Loads Python's built-in module for handling delays
+
+2. from plyer import notification
+   Imports the cross-platform desktop notification module
+
+3. while True:
+   Starts an infinite loop that never exits on its own
+
+4. notification.notify(...)
+   Triggers a native OS pop-up notification with a title and message
+
+5. time.sleep(60 * 60)
+   Pauses execution for 3600 seconds (1 hour) before the loop repeats
+
+REQUIREMENTS
+------------
+- Python 3.x
+- plyer library (https://pypi.org/project/plyer/)
+
+Install the dependency:
+    pip install plyer
+
+USAGE
+-----
+1. Save the script as main.py
+2. Run it from the terminal:
+       python main.py
+3. Leave the terminal running - a notification will appear every
+   interval (default: 1 hour)
+4. To stop it, press Ctrl + C in the terminal, or close the terminal
+   window
+
+IMPORTANT NOTE ON INDENTATION
+------------------------------
+In Python, indentation defines what's inside a loop. The time.sleep()
+call must be indented at the same level as notification.notify() so it
+runs INSIDE the while loop:
+
+    while True:
+        notification.notify(...)   # inside loop
+        time.sleep(60 * 60)        # inside loop - must be indented!
+
+If time.sleep() isn't indented, it sits outside the loop and never
+executes - causing the notification to fire repeatedly with no delay,
+since the loop has nothing slowing it down.
+
+TESTING TIP
+-----------
+For testing purposes, use a shorter interval (e.g. time.sleep(10))
+instead of 60 * 60, and add a print statement to track activity in the
+terminal:
+
+    while True:
+        notification.notify(title="Please drink some water", message="Water is very essential for your health.")
+        print("Notification sent at", time.strftime("%H:%M:%S"))
+        time.sleep(10)
+
+Switch back to time.sleep(60 * 60) once confirmed working.
+
+POSSIBLE IMPROVEMENTS
+----------------------
+- Add a system tray icon with start/stop controls
+- Make the interval configurable via command-line arguments or a
+  config file
+- Track daily water intake count and display a summary
+- Package as a standalone .exe using pyinstaller for one-click use
+
+TECH STACK
+----------
+- Language: Python
+- Library: plyer (for cross-platform notifications)
+- Concept used: Infinite loops, time delays, OS-level notifications
