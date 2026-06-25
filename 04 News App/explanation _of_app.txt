@@ -21,7 +21,7 @@ LINE-BY-LINE / SECTION-WISE BREAKDOWN
    - Takes input from the user (e.g. "cricket", "AI", "elections").
    - This value will be used as the search keyword for the API.
 
-3) api = "461326a755104abe9d6a831b68366f08"
+3) api = "Ur api key"
    - This is your NewsAPI key, which authenticates your requests.
    - IMPORTANT: Don't hardcode API keys directly in your code,
      especially if you plan to push this to GitHub. Anyone who
