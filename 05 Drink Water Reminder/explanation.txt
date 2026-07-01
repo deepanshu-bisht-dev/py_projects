@@ -6,7 +6,7 @@ drink water at regular intervals.
 
 OVERVIEW
 --------
-This script runs silently in the background and sends a native desktop
+This script runs silently in the background and sends a desktop
 notification at a fixed time interval, nudging you to take a water
 break. It's a lightweight example of using Python for everyday
 productivity/health automation.
